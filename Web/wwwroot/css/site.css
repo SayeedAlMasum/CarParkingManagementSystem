@@ -1,0 +1,111 @@
+/* General Styles */
+html {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #fffaf0; /* Light orange background */
+    color: #333;
+}
+
+/* Navbar */
+.navbar-dark.bg-orange {
+    background-color: #ff6600; /* Vivid orange */
+    border-bottom: 2px solid #cc5200; /* Slightly darker border */
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff; /* White text */
+    transition: color 0.3s ease;
+}
+
+    .navbar-dark .navbar-nav .nav-link:hover {
+        color: #ffe6cc; /* Light orange hover */
+    }
+
+/* Buttons */
+.btn-primary {
+    background-color: #ff8533;
+    border-color: #e67300;
+    color: #ffffff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+    .btn-primary:hover {
+        background-color: #e67300; /* Darker orange on hover */
+        color: #ffffff;
+    }
+
+.btn-gradient {
+    background: linear-gradient(45deg, #ff7f50, #ff4500); /* Orangish gradient */
+    color: white;
+    font-weight: bold;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient:hover {
+        background: linear-gradient(45deg, #ff6347, #e73e01);
+    }
+
+/* Footer */
+.footer {
+    background-color: #e65c00; /* Deep orange background */
+    color: white;
+    padding: 20px;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: #ffd9b3; /* Light orange */
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    footer a:hover {
+        color: #ffffff; /* White on hover */
+    }
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+    .card:hover {
+        transform: translateY(-10px);
+    }
+
+.card-header {
+    background: linear-gradient(45deg, #ff8533, #e65c00); /* Orange gradient */
+    color: white;
+}
+
+/* Jumbotron */
+.jumbotron {
+    background: linear-gradient(45deg, #ff7f50, #ff4500); /* Orangish gradient */
+    color: white;
+    padding: 80px 0;
+}
+
+    .jumbotron .btn {
+        background-color: #ffffff;
+        color: #e65c00; /* Dark orange text */
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+        .jumbotron .btn:hover {
+            background-color: #e65c00;
+            color: white;
+        }

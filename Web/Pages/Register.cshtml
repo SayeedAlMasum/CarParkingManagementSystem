@@ -1,0 +1,22 @@
+﻿@page
+@model Web.Pages.RegisterModel
+
+<h2>Register</h2>
+<form method="post" asp-page-handler="Register">
+    <div class="form-group">
+        <label for="FullName">Full Name</label>
+        <input type="text" id="FullName" asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Email">Email</label>
+        <input type="email" id="Email" asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Password">Password</label>
+        <input type="password" id="Password" asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Register</button>
+</form>

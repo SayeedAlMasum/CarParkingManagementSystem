@@ -1,0 +1,73 @@
+﻿@* UserSlot.cshtml *@
+@page
+@model Web.Pages.UserSlotsModel
+
+<h2>Available Slots</h2>
+
+<!-- Search Box for User -->
+<div class="form-group">
+    <label for="search">Search Slots</label>
+    <input type="text" id="search" class="form-control" placeholder="Search for a Slot..." onkeyup="filterSlots()" />
+</div>
+
+<!-- List of Available Slots -->
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Subcategory</th>
+            <th>Is Premium</th>
+            <th>Operation</th>
+        </tr>
+    </thead>
+    <tbody id="SlotTable">
+        @if (Model.Slots?.Any() ?? false)
+        {
+            @foreach (var item in Model.Slots)
+            {
+                <tr>
+                    <td>@item.Title</td>
+                    <td>@item.Category</td>
+                    <td>@item.SubCategory</td>
+                    <td>@item.IsBooked</td>
+                    <td>
+                        @if (item.IsBooked)
+                        {
+                            <a asp-page="/Payment" asp-route-SlotId="@item.SlotId" class="btn btn-warning btn-sm">Enroll</a>
+                        }
+                        else
+                        {
+                            <a asp-page="/Content" asp-route-SlotId="@item.SlotId" class="btn btn-primary btn-sm">Content</a>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">No Slots available.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function filterSlots() {
+        const searchInput = document.getElementById("search").value.toLowerCase();
+        const rows = document.querySelectorAll("#SlotTable tr");
+
+        rows.forEach(row => {
+            const title = row.querySelector("td:first-child").textContent.toLowerCase();
+            const category = row.querySelector("td:nth-child(2)").textContent.toLowerCase();
+            const subCategory = row.querySelector("td:nth-child(3)").textContent.toLowerCase();
+
+            if (title.includes(searchInput) || category.includes(searchInput) || subCategory.includes(searchInput)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
+</script>
