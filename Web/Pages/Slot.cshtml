@@ -1,0 +1,122 @@
+﻿@* Slot.cshtml *@
+@page
+@model Web.Pages.SlotModel
+
+<h2>Available Slots</h2>
+
+<!-- Form to Add a New Slot -->
+<h3>Add New Slot</h3>
+<form method="post">
+    <div class="form-group">
+        <label for="Slot Id">Slot Id</label>
+        <input type="number" id="Slot Id" asp-for="Slot.SlotId" class="form-control" required />
+        <span asp-validation-for="Slot.SlotId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Title">Title</label>
+        <input type="text" id="Title" asp-for="Slot.Title" class="form-control" required />
+        <span asp-validation-for="Slot.Title" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Description">Description</label>
+        <textarea id="Description" asp-for="Slot.Description" class="form-control" rows="1" required></textarea>
+        <span asp-validation-for="Slot.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="Category">Category</label>
+        <select id="Category" asp-for="Slot.Category" class="form-control" onchange="updateSubCategories()">
+            <option value="" disabled selected>Select a category</option>
+            <option value="Technical">Technical</option>
+            <option value="Creative">Creative</option>
+            <option value="Business">Business</option>
+            <option value="Personal Development">Personal Development</option>
+            <option value="Other">Other</option>
+        </select>
+        <span asp-validation-for="Slot.Category" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="SubCategory">Subcategory</label>
+        <select id="SubCategory" asp-for="Slot.SubCategory" class="form-control">
+            <option value="" disabled selected>Select a subcategory</option>
+        </select>
+        <span asp-validation-for="Slot.SubCategory" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="IsPremium">Is Premium Slot?</label>
+        <input type="checkbox" id="IsPremium" asp-for="Slot.IsBooked" class="form-check-input" />
+        <span asp-validation-for="Slot.IsBooked" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Save</button>
+</form>
+
+<hr />
+
+<!-- List of Available Slots -->
+<h2>Available Slots</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Slot Id</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Sub Category</th>
+            <th>Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Slots?.Any() ?? false)
+        {
+            @foreach (var item in Model.Slots)
+            {
+                <tr>
+                    <td>@item.SlotId</td>
+                    <td>@item.Title</td>
+                    <td>@item.Category</td>
+                    <td>@item.SubCategory</td>
+                    <td>@item.IsBooked</td>
+                    <td>
+                        <a asp-page="/EditSlot" asp-route-id="@item.SlotId" class="btn btn-primary">Edit</a>
+                        <form method="post" asp-page-handler="Delete" asp-route-id="@item.SlotId" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5" class="text-center">No Slots available.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    // Define subcategories for each main category
+    const subCategories = {
+    "Shopping Malls": ["Bashundhara City Shopping Mall", "Jamuna Future Park", "Police Plaza Concord", "New Market"],
+    "Business Districts": ["Motijheel Commercial Area", "Gulshan 1 and 2", "Kawran Bazar"],
+    "Hotels": ["Pan Pacific Sonargaon Dhaka", "Radisson Blu Water Garden","Le Méridien Dhaka"],
+    "Parks": ["Ramna Park", "Hatirjheel", "Gulshan Lake Park"],
+    "Sports Venues": ["Sher-e-Bangla National Stadium","Abahani Ground"]
+    };
+
+    function updateSubCategories() {
+        const category = document.getElementById("Category").value;
+        const subCategoryDropdown = document.getElementById("SubCategory");
+
+        // Clear existing options
+        subCategoryDropdown.innerHTML = '<option value="" disabled selected>Select a subcategory</option>';
+
+        // Populate new subcategories
+        if (subCategories[category]) {
+            subCategories[category].forEach(subCategory => {
+                const option = document.createElement("option");
+                option.value = subCategory;
+                option.textContent = subCategory;
+                subCategoryDropdown.appendChild(option);
+            });
+        }
+    }
+</script>
