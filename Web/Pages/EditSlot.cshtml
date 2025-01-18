@@ -24,11 +24,11 @@
         <label for="Category">Category</label>
         <select id="Category" asp-for="Slot.Category" class="form-control" onchange="updateSubCategories()">
             <option value="" disabled selected>Select a category</option>
-            <option value="Technical">Technical</option>
-            <option value="Creative">Creative</option>
-            <option value="Business">Business</option>
-            <option value="Personal Development">Personal Development</option>
-            <option value="Other">Other</option>
+            <option value="Shopping Malls">Shopping Malls</option>
+            <option value="Business Districts">Business Districts</option>
+            <option value="Hotels">Hotels</option>
+            <option value="Parks">Parks</option>
+            <option value="Sports Venues">Sports Venues</option>
         </select>
         <span asp-validation-for="Slot.Category" class="text-danger"></span>
     </div>
@@ -55,7 +55,7 @@
         "Business Districts": ["Motijheel Commercial Area", "Gulshan 1 and 2", "Kawran Bazar"],
         "Hotels": ["Pan Pacific Sonargaon Dhaka", "Radisson Blu Water Garden", "Le Méridien Dhaka"],
         "Parks": ["Ramna Park", "Hatirjheel", "Gulshan Lake Park"],
-        "Sports Venues": ["Sher-e-Bangla National Stadium","Abahani Ground"]
+        "Sports Venues": ["Sher-e-Bangla National Stadium", "Abahani Ground"]
     };
 
     function updateSubCategories() {
@@ -63,9 +63,17 @@
         const subCategoryDropdown = document.getElementById("SubCategory");
 
         // Clear existing options
-        subCategoryDropdown.innerHTML = '<option value="" disabled selected>Select a subcategory</option>';
+        subCategoryDropdown.innerHTML = "";
 
-        // Populate new subcategories
+        // Add a default "Select" option
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = "Select a subcategory";
+        defaultOption.disabled = true;
+        defaultOption.selected = true;
+        subCategoryDropdown.appendChild(defaultOption);
+
+        // Populate new subcategories if the category exists
         if (subCategories[category]) {
             subCategories[category].forEach(subCategory => {
                 const option = document.createElement("option");
@@ -76,3 +84,4 @@
         }
     }
 </script>
+
