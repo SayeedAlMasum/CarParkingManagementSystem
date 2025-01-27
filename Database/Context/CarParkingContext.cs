@@ -8,8 +8,8 @@ namespace Database.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=DESKTOP-5NMO71P;Database=CarParkingManagementSystem;Trusted_Connection=True;TrustServerCertificate=True;ConnectRetryCount=0");
-            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-1H8PV8J\SQLEXPRESS01;Database=CarParkingManagementSystem;Trusted_Connection=True;TrustServerCertificate=True;ConnectRetryCount=0");
+            //optionsBuilder.UseSqlServer(@"Server=DESKTOP-5NMO71P;Database=CarParkingManagementSystem;Trusted_Connection=True;TrustServerCertificate=True;ConnectRetryCount=0");
+            optionsBuilder.UseSqlServer(@"Server=DESKTOP-1H8PV8J\SQLEXPRESS01;Database=CarParkingManagementSystem;Trusted_Connection=True;TrustServerCertificate=True;ConnectRetryCount=0");
         }
         public DbSet<UserInfo> UserInfo { get; set; }
         public DbSet<Slot> Slot { get; set; }
