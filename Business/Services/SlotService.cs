@@ -11,24 +11,24 @@ namespace Business.Services
 {
     public class SlotService
     {
-        // Initialize SkillExchangeContext for database operations
-        CarParkingContext skillExchangeContext = new CarParkingContext();
+        // Initialize CarParkingContext for database operations
+        CarParkingContext carParkingContext = new CarParkingContext();
 
         // Method to retrieve Slot details by ID
-        public Result GetSlotById(int SlotId)
+        public Result GetSlotById(int slotId)
         {
             try
             {
                 // Retrieve the Slot by ID from the database
-                var Slot = skillExchangeContext.Slot.FirstOrDefault(c => c.SlotId == SlotId);
+                var slot = carParkingContext.Slot.FirstOrDefault(c => c.SlotId == slotId);
                 // Check if Slot exists
-                if (Slot == null)
+                if (slot == null)
                 {
                     // Return failure result if Slot not found
                     return new Result(false, "Slot not found");
                 }
                 // Return success result with Slot details
-                return new Result(true, "Success", Slot);
+                return new Result(true, "Success", slot);
             }
             catch (Exception ex)
             {
@@ -42,9 +42,9 @@ namespace Business.Services
             try
             {
                 // Retrieve all Slots from the database
-                var Slots = skillExchangeContext.Slot.ToList();
+                var slots = carParkingContext.Slot.ToList();
                 // Return success result with Slot list
-                return new Result(true, "Success", Slots);
+                return new Result(true, "Success", slots);
             }
             catch (Exception ex)
             {
@@ -57,23 +57,23 @@ namespace Business.Services
             try
             {
                 // Retrieve the Slot by ID from the database
-                var Slot = skillExchangeContext.Slot.FirstOrDefault(c => c.SlotId == updatedSlot.SlotId);
+                var slot = carParkingContext.Slot.FirstOrDefault(c => c.SlotId == updatedSlot.SlotId);
                 // Check if Slot exists
-                if (Slot == null)
+                if (slot == null)
                 {
                     // Return failure result if Slot not found
                     return new Result(false, "Slot not found");
                 }
                 // Update Slot properties with new values
-                Slot.Title = updatedSlot.Title;
-                Slot.Description = updatedSlot.Description;
-                Slot.Category = updatedSlot.Category;
-                Slot.SubCategory = updatedSlot.SubCategory;
-                Slot.UpdatedDate = DateTime.Now;
-                Slot.UpdatedBy = updatedSlot.UpdatedBy;
+                slot.Title = updatedSlot.Title;
+                slot.Description = updatedSlot.Description;
+                slot.Category = updatedSlot.Category;
+                slot.SubCategory = updatedSlot.SubCategory;
+                slot.UpdatedDate = DateTime.Now;
+                slot.UpdatedBy = updatedSlot.UpdatedBy;
 
                 // Save changes to the database
-                skillExchangeContext.SaveChanges();
+                carParkingContext.SaveChanges();
 
                 // Return success result after update
                 return new Result(true, "Slot updated successfully");
@@ -86,25 +86,25 @@ namespace Business.Services
         }
 
         // Method to delete a Slot by ID
-        public Result DeleteSlot(int SlotId)
+        public Result DeleteSlot(int slotId)
         {
             try
             {
                 // Retrieve the Slot by ID from the database
-                var Slot = skillExchangeContext.Slot.FirstOrDefault(c => c.SlotId == SlotId);
+                var slot = carParkingContext.Slot.FirstOrDefault(c => c.SlotId == slotId);
 
                 // Check if Slot exists
-                if (Slot == null)
+                if (slot == null)
                 {
                     // Return failure result if Slot not found
                     return new Result(false, "Slot not found");
                 }
 
                 // Remove the Slot from the database
-                skillExchangeContext.Slot.Remove(Slot);
+                carParkingContext.Slot.Remove(slot);
 
                 // Save changes to the database
-                skillExchangeContext.SaveChanges();
+                carParkingContext.SaveChanges();
 
                 // Return success result after deletion
                 return new Result(true, "Slot deleted successfully");

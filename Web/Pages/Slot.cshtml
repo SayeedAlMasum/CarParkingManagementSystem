@@ -102,22 +102,14 @@
         "Sports Venues": ["Sher-e-Bangla National Stadium", "Abahani Ground"]
     };
 
-    function updateSubCategories() {
+      function updateSubCategories() {
         const category = document.getElementById("Category").value;
         const subCategoryDropdown = document.getElementById("SubCategory");
 
         // Clear existing options
-        subCategoryDropdown.innerHTML = "";
+        subCategoryDropdown.innerHTML = '<option value="" disabled selected>Select a subcategory</option>';
 
-        // Add a default "Select" option
-        const defaultOption = document.createElement("option");
-        defaultOption.value = "";
-        defaultOption.textContent = "Select a subcategory";
-        defaultOption.disabled = true;
-        defaultOption.selected = true;
-        subCategoryDropdown.appendChild(defaultOption);
-
-        // Populate new subcategories if the category exists
+        // Populate new subcategories
         if (subCategories[category]) {
             subCategories[category].forEach(subCategory => {
                 const option = document.createElement("option");
@@ -128,4 +120,3 @@
         }
     }
 </script>
-

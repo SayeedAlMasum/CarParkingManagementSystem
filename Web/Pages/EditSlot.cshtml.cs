@@ -6,6 +6,7 @@ using Database.Model;
 using System;
 using Database.Context;
 using System.Linq;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 
 namespace Web.Pages
 {
@@ -18,9 +19,9 @@ namespace Web.Pages
         {
             var result = new SlotService().GetSlotById(id);
 
-            if (result.Success && result.Data is Slot Slot)
+            if (result.Success && result.Data is Slot slot)
             {
-                Slot = Slot;
+                Slot = slot;
                 return Page();
             }
 

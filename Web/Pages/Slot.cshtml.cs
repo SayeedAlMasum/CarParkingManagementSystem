@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Business.Services;
 using Database.Context;
 using Database.Model;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
