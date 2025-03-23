@@ -12,49 +12,30 @@ using System.Threading.Tasks;
 using Business.Services;
 namespace Business.Services
 {
-
     public class UserInfoService
     {
-        
-        // Handles user registration
-        public Result Registration(UserForm user)
+        // Initialize the database context to interact with the database
+        CarParkingContext carParkingContext = new CarParkingContext();
+
+        // Method to handle the registration of a new user
+         public Result Registration(UserRegisterForm user, string role)
         {
-            // Initialize the database context
-            CarParkingContext carParkingContext = new CarParkingContext();
+            if (carParkingContext.UserInfo.Any(x => x.Email == user.Email))
+                return new Result(false, "Email already registered!");
 
-            // Check if the email is already registered
-            bool x = carParkingContext.UserInfo.Any(x => x.Email == user.Email);
-            if (x) return new Result(false, "Email already registered!");
-
-            // Create a new user object and populate its properties
-            UserInfo userInfo = new UserInfo();
-            userInfo.Name = user.FullName;
-            userInfo.Email = user.Email;
-
-            // Hash the user's password for security
-            userInfo.PasswordHash = new PasswordHasher<object>().HashPassword(user, user.Password);
-
-            // Assign a default role ID if none is provided
-            userInfo.RoleId = user.RoleId == 0 ? 3 : user.RoleId;
-
-            // Mark the user as active
-            userInfo.IsActive = true;
-
-            // Add the new user to the database
+            var userInfo = new UserInfo
+            {
+                    Name = user.Name,
+                    Email=user.Email,
+                    PasswordHash = new PasswordHasher<UserInfo>().HashPassword(null,user.Password),
+                    Role = role,
+                    IsActive=true,
+                    Location="Unknown"
+            };
             carParkingContext.UserInfo.Add(userInfo);
-            try
-            {
-                // Save changes to the database
-                carParkingContext.SaveChanges();
-                return new Result(true, "Registered Successfully!", user);
-            }
-            catch (Exception ex)
-            {
-                // Return an error if something goes wrong during database save
-                return new Result(false, ex.Message);
-            }
+            carParkingContext.SaveChanges();
+            return new Result(true, "Registered Successfully!");
         }
-
         // Handles user login
         public Result Login(string email, string password)
         {

@@ -1,22 +1,40 @@
-﻿@page
+﻿﻿@* Register.cshtml *@
+@page
 @model Web.Pages.RegisterModel
 
 <h2>Register</h2>
-<form method="post" asp-page-handler="Register">
-    <div class="form-group">
-        <label for="FullName">Full Name</label>
-        <input type="text" id="FullName" asp-for="FullName" class="form-control" />
-        <span asp-validation-for="FullName" class="text-danger"></span>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>
+        <label for="Name">Name</label>
+        <input type="text" asp-for="userRegisterForm.Name" class="form-control" required />
     </div>
-    <div class="form-group">
+
+    <div>
         <label for="Email">Email</label>
-        <input type="email" id="Email" asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+        <input type="email" asp-for="userRegisterForm.Email" class="form-control" required />
     </div>
+
     <div class="form-group">
         <label for="Password">Password</label>
-        <input type="password" id="Password" asp-for="Password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
+        <input type="password" asp-for="userRegisterForm.Password" class="form-control" required />
     </div>
+
+    <div class="form-group">
+        <label for="Role">Role</label>
+        <select asp-for="userRegisterForm.Role" class="form-control" required>
+            <option value="">Select Role</option>
+            <option value="Student">Student</option>
+            <option value="Teacher">Teacher</option>
+            <option value="Admin">Admin</option>
+        </select>
+    </div>
+
     <button type="submit" class="btn btn-primary">Register</button>
+
+    <p class="text-center mt-3">
+        Already have an account? <a href="/LogIn">Login here</a>
+    </p>
 </form>

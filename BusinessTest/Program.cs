@@ -18,12 +18,35 @@ namespace BusinessTest
 
         static void RegistrationTest()
         {
-            UserForm userForm = new UserForm();
-            userForm.FullName = Console.ReadLine();
-            userForm.Email = Console.ReadLine();
-            userForm.Password = Console.ReadLine();
-            Result result = new UserInfoService().Registration(userForm);
-            Console.WriteLine(result.Message);
+            try
+            {
+                UserRegisterForm userRegisterForm = new UserRegisterForm();
+                Console.WriteLine("Enter Full Name:");
+                userRegisterForm.Name = Console.ReadLine();
+
+                Console.WriteLine("Enter the Email:");
+                userRegisterForm.Email = Console.ReadLine();
+
+                Console.WriteLine("Enter Password:");
+                userRegisterForm.Password = Console.ReadLine();
+
+                var userInfoService = new UserInfoService();  // Instance of service
+                Result result = userInfoService.Registration(userRegisterForm,"");  // Call registration method
+                if (result.Success)
+                {
+                    Console.WriteLine("Registration successful!");
+                }
+                else
+                {
+                    Console.WriteLine($"Registration failed: {result.Message}");
+                }
+            }
+          
+              catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
         }
         static void LoginTest()
         {
