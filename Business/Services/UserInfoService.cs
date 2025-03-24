@@ -55,6 +55,11 @@ namespace Business.Services
                 ? new Result(true, "Login successful!", user)
                 : new Result(false, "Invalid password!");
         }
+        public Result Update(UserRegisterForm user)
+        {
+            //logics
+            return new Result().DBCommit(carParkingContext, "Updated Successfully!", null, user);
+        }
         public Result List()
         {
             try

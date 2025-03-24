@@ -50,7 +50,7 @@ namespace BusinessTest
         }
         static void LoginTest()
         {
-            UserLoginForm loginForm = new UserLoginForm();
+            UserLogInForm loginForm = new UserLogInForm();
             Console.WriteLine("Email");
             loginForm.Email = Console.ReadLine();
             Console.WriteLine("Password");

@@ -1,15 +1,36 @@
+//Program.cs
+using Business.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add authentication services
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/LogIn"; // Redirect to the login page if unauthorized
+        options.AccessDeniedPath = "/AccessDenied"; // Redirect to an access denied page
+    });
+
+// Add authorization services
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("TeacherOnly", policy => policy.RequireRole("Teacher"));
+    options.AddPolicy("StudentOnly", policy => policy.RequireRole("Student"));
+});
+
+// Add other services
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<UserInfoService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -19,14 +40,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 // Enable Authentication and Authorization middleware
-app.UseAuthentication();
+app.UseAuthentication(); // Add this line
 app.UseAuthorization();
 
 app.MapRazorPages();
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapRazorPages();
-});
-
 
 app.Run();

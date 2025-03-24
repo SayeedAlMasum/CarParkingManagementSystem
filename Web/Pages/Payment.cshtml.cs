@@ -7,7 +7,7 @@ namespace Web.Pages
     public class PaymentModel : PageModel
     {
         [BindProperty]
-        public Slot Course { get; set; }
+        public Slot Slot { get; set; }
 
         [BindProperty]
         public string CardNumber { get; set; }
@@ -18,9 +18,9 @@ namespace Web.Pages
         [BindProperty]
         public string CVV { get; set; }
 
-        public IActionResult OnGet(Slot course)
+        public IActionResult OnGet(Slot slot)
         {
-            Course = course;
+            Slot = slot;
             return Page();
         }
 

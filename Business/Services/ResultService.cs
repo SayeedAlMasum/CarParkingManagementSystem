@@ -2,9 +2,9 @@
 {
     public class ServiceResult
     {
-        public bool Success { get; }
-        public string Message { get; }
-        public object Data { get; }
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public object Data { get; set; }
 
         public ServiceResult(bool success, string message, object data = null)
         {
