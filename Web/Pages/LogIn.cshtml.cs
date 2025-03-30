@@ -1,45 +1,44 @@
 //LogIn.cshtml.cs
+using System.Security.Claims;
+using Business;
+using Business.FormModel;
+using Business.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages
 {
-    // Represents the Razor Page Model for user login
     public class LogInModel : PageModel
     {
-        // Binds the email input field from the form to this property
         [BindProperty]
-        public string Email { get; set; }
-
-        // Binds the password input field from the form to this property
-        [BindProperty]
-        public string Password { get; set; }
-
-        // Handles GET requests to display the login page
-        public IActionResult OnGet()
+        public UserLogInForm userLogInForm { get; set; }
+        public void OnGet()
         {
-            return Page(); // Returns the login page
         }
-
-        // Handles POST requests to process login form submission
         public IActionResult OnPost()
         {
-            // Check if the model state (form input) is valid
-            if (!ModelState.IsValid)
+            Result result = new UserInfoService().LogIn(userLogInForm);
+            if (result.Success)
             {
-                return Page(); // Return the same page with validation errors
-            }
+                var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, userLogInForm.Email ?? string.Empty),
+            new Claim(ClaimTypes.Role, result.Data?.ToString() ?? "Student") // Default role
+        };
 
-            // Example: Replace this with actual login validation logic
-            if (Email == "admin@example.com" && Password == "password123")
+                var identity = new ClaimsIdentity(claims, "login");
+                var principal = new ClaimsPrincipal(identity);
+                HttpContext.SignInAsync(principal);
+
+                return RedirectToPage("/Index");
+            }
+            else
             {
-                // If login is successful, redirect to a protected page (e.g., Dashboard)
-                return RedirectToPage("/Dashboard");
+                ModelState.AddModelError(string.Empty, result.Message);
+                return Page();
             }
-
-            // If login fails, add a model error and redisplay the login page
-            ModelState.AddModelError(string.Empty, "Invalid email or password.");
-            return Page();
         }
+
     }
 }

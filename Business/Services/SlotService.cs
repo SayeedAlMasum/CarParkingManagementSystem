@@ -52,6 +52,42 @@ namespace Business.Services
                 return new Result(false, ex.Message);
             }
         }
+        public Result AddSlot(Slot slot)
+        {
+            try
+            {
+                // Validate required fields
+                if (string.IsNullOrEmpty(slot.Title))
+                    return new Result(false, "Title is required.");
+                if (string.IsNullOrEmpty(slot.Description))
+                    return new Result(false, "Description is required.");
+                if (string.IsNullOrEmpty(slot.Category))
+                    return new Result(false, "Category is required.");
+                if (string.IsNullOrEmpty(slot.SubCategory))
+                    return new Result(false, "SubCategory is required.");
+                // Set the slotId (if not auto-generated)
+                if (slot.SlotId == 0)
+                {
+                    slot.SlotId = carParkingContext.Slot.Max(c => c.SlotId) + 1; // Manually set CourseId
+                }
+                // Set the CreatedDate of the course to the current date and time
+                slot.CreatedDate = DateTime.Now;
+
+                // Add the course to the database context
+                carParkingContext.Slot.Add(slot);
+
+                // Save changes to the database
+                carParkingContext.SaveChanges();
+
+                // Return a success result with a message
+                return new Result(true, "slot added successfully");
+            }
+            catch (Exception ex)
+            {
+                // If an exception occurs, return a failure result with the error message
+                return new Result(false, ex.Message);
+            }
+        }
         public Result UpdateSlot(Slot updatedSlot)
         {
             try

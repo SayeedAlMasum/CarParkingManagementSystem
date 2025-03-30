@@ -10,7 +10,25 @@
 </div>
 
 <!-- Featured Roles Section -->
-
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">Featured Roles</h2>
+    <div class="row">
+        @foreach (var role in Model.Roles)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-lg border-0 rounded-lg overflow-hidden animated fadeInUp delay-1s">
+                    <div class="card-header bg-gradient text-white text-center">
+                        <h5 class="card-title mb-0 text-primary">@role</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text text-dark">Discover a world of opportunities and learning by engaging with this role. Perfect for skill development!</p>
+                        <a href="Review" class="btn btn-gradient btn-block">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 <!-- Testimonials Section -->
 <div class="container mt-5 mb-5">
     <h2 class="text-center text-primary mb-4">What People Are Saying</h2>

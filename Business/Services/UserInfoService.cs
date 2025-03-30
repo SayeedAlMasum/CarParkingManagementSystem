@@ -37,24 +37,32 @@ namespace Business.Services
             return new Result(true, "Registered Successfully!");
         }
         // Handles user login
-        public Result Login(string email, string password)
+        public Result LogIn(UserLogInForm user)
         {
-            // Initialize the database context
-            using var context = new CarParkingContext();
+            var userInfo = carParkingContext.UserInfo.FirstOrDefault(x => x.Email == user.Email);
 
-            // Find the user by email
-            var user = context.UserInfo.FirstOrDefault(u => u.Email == email);
-            if (user == null) return new Result(false, "User not found!");
+            if (userInfo == null)
+            {
+                return new Result(false, "Email not found. Please register first.");
+            }
 
-            // Verify the hashed password
-            var passwordHasher = new PasswordHasher<object>();
-            var verificationResult = passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+            var passwordVerification = new PasswordHasher<UserInfo>().VerifyHashedPassword(userInfo, userInfo.PasswordHash, user.Password);
 
-            // Return success or failure based on password verification
-            return verificationResult == PasswordVerificationResult.Success
-                ? new Result(true, "Login successful!", user)
-                : new Result(false, "Invalid password!");
+            if (passwordVerification == PasswordVerificationResult.Success)
+            {
+                // Return the role along with the success message
+                return new Result(true, $"{userInfo.Name} successfully logged in!", userInfo.Role);
+            }
+            else
+            {
+                return new Result(false, "Incorrect password.");
+            }
         }
+
+
+
+
+
         public Result Update(UserRegisterForm user)
         {
             //logics
@@ -62,15 +70,11 @@ namespace Business.Services
         }
         public Result List()
         {
+            //logics
             try
             {
-                using var context = new CarParkingContext();
-                var users = context.UserInfo.ToList();
-
-                if (users.Count == 0)
-                    return new Result(false, "No users found.");
-
-                return new Result(true, "User list retrieved successfully.", users);
+                var Users = carParkingContext.UserInfo.ToList();
+                return new Result(true, "Success", Users);
             }
             catch (Exception ex)
             {

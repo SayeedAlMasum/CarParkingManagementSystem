@@ -1,27 +1,36 @@
-﻿@page
+﻿﻿@* LogIn.cshtml *@
+@page
 @model Web.Pages.LogInModel
 @{
     ViewData["Title"] = "Log In";
 }
 
-<h2>Log In</h2>
+<h2>Login</h2>
 
 <form method="post">
-    <div class="form-group">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <div>
         <label for="Email">Email</label>
-        <input type="email" id="Email" asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
+        <input type="email" asp-for="userLogInForm.Email" class="form-control" />
     </div>
+
     <div class="form-group">
         <label for="Password">Password</label>
-        <input type="password" id="Password" asp-for="Password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
+        <input type="password" asp-for="userLogInForm.Password" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">Log In</button>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+
+    <p class="text-center mt-3">
+        Already have an account? <a href="/LogIn">Login here</a>
+    </p>
 </form>
 
+
+
 <div>
-    <p>Don't have an account? <a asp-page="/Register">Register here</a>.</p>
+    <p style="margin:10rem;margin-right:25rem;margin-left:25rem;">Don't have an account? <a asp-page="/Register">Register here</a>.</p>
 </div>
 
 @section Scripts {

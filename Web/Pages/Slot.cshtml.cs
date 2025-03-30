@@ -1,86 +1,97 @@
 // Slot.cshtml.cs
-using System.Collections.Generic;
 using Business.Services;
-using Database.Context;
 using Database.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages
 {
+    [Authorize(Roles = "Admin")]
     public class SlotModel : PageModel
     {
+        private readonly SlotService _slotService;
+
+        public SlotModel()
+        {
+            _slotService = new SlotService();
+        }
+
         public List<Slot> Slots { get; set; } = new List<Slot>();
 
         [BindProperty]
         public Slot Slot { get; set; } = new Slot();
 
-        // OnGet method to load all Slots for displaying in the list
         public void OnGet()
         {
-            var result = new SlotService().List();  // Get Slots from the service
+            var result = _slotService.List();
             if (result.Success)
             {
                 Slots = (List<Slot>)result.Data;
             }
         }
 
-        // OnPost method for adding a new Slot
         public IActionResult OnPost()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                // Set the Slot creation date (optional)
-                Slot.CreatedDate = DateTime.Now;
-
-                // Save the Slot to the database (both premium and non-premium)
-                using (var context = new CarParkingContext())
+                // Log validation errors
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
                 {
-                    context.Slot.Add(Slot);  // Add Slot to the database
-                    context.SaveChanges();  // Save changes to the database
+                    Console.WriteLine(error.ErrorMessage);
                 }
-
-                return RedirectToPage("/Slot");  // Redirect to the Slot page after saving
+                return Page();
             }
 
-            // If model state is invalid, reload the page with the errors
-            OnGet();
-            return Page();
-        }
-        // OnPost method for updating an existing Slot
-        public IActionResult OnPostUpdate()
-        {
-            if (ModelState.IsValid)
-            {
-                var result = new SlotService().UpdateSlot(Slot);
-                if (result.Success)
-                {
-                    return RedirectToPage("/Slot"); // Redirect to the Slot list after updating
-                }
+            // Log the course data before saving
+            Console.WriteLine($"Title: {Slot.Title}, Description: {Slot.Description}, Category: {Slot.Category}, SubCategory: {Slot.SubCategory}, IsPremium: {Slot.IsBooked}");
 
-                // Handle update failure (e.g., display an error message)
-                ModelState.AddModelError("", result.Message);
-            }
+            // Set the CreatedBy field to the current user's name
+            Slot.CreatedBy = User.Identity?.Name ?? "System";
 
-            // If the model state is invalid, reload the page with errors
-            OnGet();
-            return Page();
-        }
-
-        // OnPost method for deleting a Slot
-        public IActionResult OnPostDelete(int id)
-        {
-            var result = new SlotService().DeleteSlot(id);
+            var result = _slotService.AddSlot(Slot);
             if (result.Success)
             {
-                return RedirectToPage("/Slot"); // Redirect to the Slot list after deletion
+                return RedirectToPage("/Slot");
             }
 
-            // Handle deletion failure (e.g., display an error message)
+            // Log the error message
+            Console.WriteLine(result.Message);
+
             ModelState.AddModelError("", result.Message);
             OnGet();
             return Page();
         }
+        public IActionResult OnPostUpdate()
+        {
+            if (ModelState.IsValid)
+            {
+                // Set the UpdatedBy field to the current user's name
+                Slot.UpdatedBy = User.Identity?.Name ?? "System";
+
+                var result = _slotService.UpdateSlot(Slot);
+                if (result.Success)
+                {
+                    return RedirectToPage("/Slot");
+                }
+                ModelState.AddModelError("", result.Message);
+            }
+            OnGet();
+            return Page();
+        }
+
+        public IActionResult OnPostDelete(int id)
+        {
+            var result = _slotService.DeleteSlot(id);
+            if (result.Success)
+            {
+                return RedirectToPage("/Slot");
+            }
+            ModelState.AddModelError("", result.Message);
+            OnGet();
+            return Page();
+        }
+
     }
 }
