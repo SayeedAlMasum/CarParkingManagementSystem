@@ -16,7 +16,7 @@ namespace Web.Pages
 
         public void OnGet()
         {
-            Roles = new List<string> { "Beginner", "Intermediate", "Expert" };
+            Roles = new List<string> { "Bus", "Truck", "Car" };
         }
     }
 }
