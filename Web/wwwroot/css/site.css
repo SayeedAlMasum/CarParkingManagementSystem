@@ -1,4 +1,4 @@
-/* General Styles */
+/* site.css */
 html {
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
@@ -11,75 +11,104 @@ html {
 }
 
 body {
-    margin-bottom: 60px;
-    background-color: #fffaf0; /* Light orange background */
-    color: #333;
+    min-height: 100vh;
+    margin: 0;
+    padding-bottom: 60px;
 }
 
-/* Navbar */
-.navbar-dark.bg-orange {
-    background-color: #ff6600; /* Vivid orange */
-    border-bottom: 2px solid #cc5200; /* Slightly darker border */
-}
-
-.navbar-dark .navbar-nav .nav-link {
-    color: #ffffff; /* White text */
-    transition: color 0.3s ease;
-}
-
-    .navbar-dark .navbar-nav .nav-link:hover {
-        color: #ffe6cc; /* Light orange hover */
+    body.landing-page {
+        background: url('../images/Background.png') repeat fixed;
+        background-size: cover;
+        min-height: 100vh;
+        margin: 0;
     }
 
-/* Buttons */
-.btn-primary {
-    background-color: #ff8533;
-    border-color: #e67300;
-    color: #ffffff;
-    transition: background-color 0.3s ease, color 0.3s ease;
+.foreground {
+    position: absolute;
+    top: 5rem;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: url('../images/Car.png') left/contain no-repeat;
+    opacity: 0.8;
 }
 
-    .btn-primary:hover {
-        background-color: #e67300; /* Darker orange on hover */
-        color: #ffffff;
+body.other-page {
+    background-color: #fff5e6; /* Light orange background */
+}
+
+/* Navigation with reduced bottom padding */
+.navbar {
+    padding: 0.3rem 0.8rem 0.2rem; /* top, sides, bottom */
+    background-color: #ff8c00 !important; /* Dark orange navbar */
+}
+
+.navbar-brand {
+    padding: 0.3rem 0;
+    display: flex;
+    align-items: center;
+}
+
+    .navbar-brand i {
+        margin-right: 8px;
+        font-size: 1.2rem;
     }
 
-.btn-gradient {
-    background: linear-gradient(45deg, #ff7f50, #ff4500); /* Orangish gradient */
+.navbar-nav .nav-link {
+    padding: 0.4rem 0.8rem;
+}
+
+.navbar-collapse {
+    background-color: #ffa64d; /* Medium orange */
+    padding: 0.8rem;
+    border-radius: 0.25rem;
+    margin-top: 0.3rem;
+}
+
+@media (min-width: 992px) {
+    .navbar-collapse {
+        background-color: transparent;
+        padding: 0;
+        margin-top: 0;
+    }
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0.3rem;
+}
+
+/* Hero Section */
+.jumbotron {
+    background: linear-gradient(45deg, #ff8c00, #ffa64d); /* Orange gradient */
     color: white;
-    font-weight: bold;
-    border-radius: 25px;
-    transition: all 0.3s ease;
+    padding: 80px 0;
 }
 
-    .btn-gradient:hover {
-        background: linear-gradient(45deg, #ff6347, #e73e01);
+    .jumbotron .btn {
+        background-color: #ffffff;
+        color: #ff8c00;
+        font-weight: bold;
+        transition: all 0.3s ease;
     }
 
-/* Footer */
-.footer {
-    background-color: #e65c00; /* Deep orange background */
-    color: white;
-    padding: 20px;
-    font-size: 0.9rem;
+        .jumbotron .btn:hover {
+            background-color: #ff8c00;
+            color: white;
+        }
+
+/* Main Content */
+.container {
+    padding-bottom: 2rem;
 }
 
-footer a {
-    color: #ffd9b3; /* Light orange */
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-    footer a:hover {
-        color: #ffffff; /* White on hover */
-    }
-
-/* Cards */
+/* Featured Roles Cards */
 .card {
     border: none;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
+    margin-bottom: 1.5rem;
 }
 
     .card:hover {
@@ -87,25 +116,166 @@ footer a {
     }
 
 .card-header {
-    background: linear-gradient(45deg, #ff8533, #e65c00); /* Orange gradient */
+    background: linear-gradient(45deg, #ff8c00, #ffa64d); /* Orange gradient */
     color: white;
 }
 
-/* Jumbotron */
-.jumbotron {
-    background: linear-gradient(45deg, #ff7f50, #ff4500); /* Orangish gradient */
-    color: white;
-    padding: 80px 0;
+.card-title {
+    font-weight: bold;
 }
 
-    .jumbotron .btn {
-        background-color: #ffffff;
-        color: #e65c00; /* Dark orange text */
-        font-weight: bold;
-        transition: all 0.3s ease;
+.card-body {
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+/* Button Styles */
+.btn-gradient {
+    background: linear-gradient(45deg, #ff8c00, #ffa64d); /* Orange gradient */
+    color: white;
+    font-weight: bold;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+    .btn-gradient:hover {
+        background: linear-gradient(45deg, #ffa64d, #ff8c00);
+        color: white;
     }
 
-        .jumbotron .btn:hover {
-            background-color: #e65c00;
-            color: white;
-        }
+.btn-rounded {
+    border-radius: 25px;
+}
+
+.pulse {
+    animation: pulse-animation 1.5s infinite;
+}
+
+@keyframes pulse-animation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Testimonial Cards */
+.testimonial-card {
+    border-radius: 12px;
+    background-color: #ff8c00; /* Dark orange */
+    color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    transition: transform 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+    .testimonial-card:hover {
+        transform: translateY(-10px);
+    }
+
+    .testimonial-card img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+    }
+
+/* Footer */
+.footer {
+    background-color: #ff8c00; /* Dark orange */
+    color: white;
+    padding: 1rem;
+    font-size: 0.9rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+footer a {
+    color: #ffffff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    footer a:hover {
+        color: #ffd9b3;
+    }
+
+/* Animations */
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.fadeIn {
+    animation-name: fadeIn;
+}
+
+.fadeInUp {
+    animation-name: fadeInUp;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fadeIn.delay-1s {
+    animation-delay: 1s;
+}
+
+.fadeIn.delay-2s {
+    animation-delay: 2s;
+}
+
+.fadeInUp.delay-1s {
+    animation-delay: 1s;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 767.98px) {
+    .navbar-collapse {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 0.8rem;
+        background-color: #ff8c00; /* Dark orange */
+    }
+
+    .container {
+        padding-top: 1rem;
+    }
+
+    .jumbotron {
+        padding: 40px 0;
+    }
+}

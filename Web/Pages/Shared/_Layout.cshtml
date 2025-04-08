@@ -1,70 +1,83 @@
-﻿@* _Layout.cshtml *@
+﻿﻿﻿@* _Layout.cshtml *@
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Car Parking</title>
+    <title>@ViewData["Title"] - SkillExchange</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Web.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body class="@(ViewContext.RouteData.Values["Page"].ToString() == "/Index" ? "landing-page" : "other-page")">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-orange shadow-sm">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Index">
-                    <i class="fa fa-lightbulb-o"></i> Car Parking
+                    <i class="fa-solid fa-car"></i> CarParking
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarNav"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-lg-flex justify-content-between">
-                    <ul class="navbar-nav">
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-white" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link text-white" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
-                       @if(User.IsInRole("Admin"))
-                       {
+                        @if (User.IsInRole("Admin"))
+                        {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Slot">Slot</a>
+                                <a class="nav-link text-white" asp-area="" asp-page="/Slot">Slot</a>
                             </li>
-                       }
+                        }
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/About">About</a>
+                            <a class="nav-link text-white" asp-area="" asp-page="/About">About</a>
                         </li>
-                                
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/UserSlot">View Slots</a>
-                            </li>
-                     
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-page="/UserSlot">View Slots</a>
+                        </li>
+                      
                     </ul>
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/LogIn">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-page="/Register">Register</a>
-                        </li>
+                    <ul class="navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-white">Welcome!</span>
+                            </li>
+                            <li class="nav-item">
+                                <form method="post" asp-page="/Logout">
+                                    <button type="submit" class="nav-link btn btn-link text-white">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-page="/LogIn">Sign In</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" asp-page="/Register">Sign Up</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <div class="container mt-4">
+    <div class="container mt-4 mb-5">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="bg-dark text-white py-4">
+    <footer class="footer">
         <div class="container text-center">
             &copy; 2025 CarParking | <a href="/Privacy" class="text-white">Privacy Policy</a>
         </div>
