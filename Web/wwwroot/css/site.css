@@ -17,13 +17,13 @@ body {
 }
 
     body.landing-page {
-        background: url('../images/Background.png') repeat fixed;
+        background: url('../images/Background design.png') no-repeat fixed;
         background-size: cover;
         min-height: 100vh;
         margin: 0;
     }
 
-.foreground {
+/*.foreground {
     position: absolute;
     top: 5rem;
     left: 0;
@@ -31,7 +31,7 @@ body {
     height: 100%;
     background: url('../images/Car.png') left/contain no-repeat;
     opacity: 0.8;
-}
+}*/
 
 body.other-page {
     background-color: #fff5e6; /* Light orange background */
