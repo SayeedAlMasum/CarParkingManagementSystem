@@ -1,4 +1,4 @@
-﻿//PaymentService.cs
+﻿//PaymentMethodService.cs
 using Database.Context;
 using Database.Model;
 

@@ -1,9 +1,10 @@
 ﻿//UserInfo.cs
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Database.Model
 {
-    public class UserInfo : BaseModel
+    public class UserInfo
     {
         [Key]
         [MaxLength(128)]
@@ -11,22 +12,23 @@ namespace Database.Model
 
         [Required]
         [MaxLength(50)]
-        public string? Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Required]
         [MaxLength(50)]
         [EmailAddress]
-        public string? Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         [Required]
-        public string? PasswordHash { get; set; }
+        public string PasswordHash { get; set; } = string.Empty;
 
         [MaxLength(50)]
-        public string? Location { get; set; }
-        [Required]
-        public string Role { get; set; } = "Student";
+        public string Location { get; set; } = "Unknown";
 
         public bool IsActive { get; set; } = true;
+
+        [Required]
+        public string Role { get; set; } = "Student"; // Add this property for role management
         public int RoleId { get; set; }
     }
 }

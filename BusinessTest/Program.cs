@@ -1,4 +1,4 @@
-﻿//Program.cs
+﻿//BusinessTest/Program.cs
 using Business;
 using Business.FormModel;
 using Business.Services;
@@ -11,27 +11,26 @@ namespace BusinessTest
     {
         static void Main(string[] args)
         {
-            RegistrationTest();
-            LoginTest();
+            Registration();
+            LogIn();
             UserListTest();
+            UserInfoTest();
         }
 
-        static void RegistrationTest()
+        static void Registration()
         {
             try
             {
                 UserRegisterForm userRegisterForm = new UserRegisterForm();
                 Console.WriteLine("Enter Full Name:");
-                userRegisterForm.Name = Console.ReadLine();
-
+                userRegisterForm.Name = Console.ReadLine();  // Use Name as defined in the model
                 Console.WriteLine("Enter the Email:");
                 userRegisterForm.Email = Console.ReadLine();
-
                 Console.WriteLine("Enter Password:");
                 userRegisterForm.Password = Console.ReadLine();
 
                 var userInfoService = new UserInfoService();  // Instance of service
-                Result result = userInfoService.Registration(userRegisterForm,"");  // Call registration method
+                Result result = userInfoService.Registration(userRegisterForm," ");  // Call registration method
                 if (result.Success)
                 {
                     Console.WriteLine("Registration successful!");
@@ -41,32 +40,50 @@ namespace BusinessTest
                     Console.WriteLine($"Registration failed: {result.Message}");
                 }
             }
-          
-              catch (Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
-
         }
-        static void LoginTest()
+        static void LogIn()
         {
-            UserLogInForm loginForm = new UserLogInForm();
-            Console.WriteLine("Email");
-            loginForm.Email = Console.ReadLine();
-            Console.WriteLine("Password");
-            loginForm.Password = Console.ReadLine();
-            Result result = new UserInfoService().Login(loginForm.Email,loginForm.Password);
-            Console.WriteLine(result.Message);
+            try
+            {
+                UserLogInForm userLoginForm = new UserLogInForm();
+                Console.WriteLine("Enter the Email:");
+                userLoginForm.Email = Console.ReadLine();
+                Console.WriteLine("Enter the Password:");
+                userLoginForm.Password = Console.ReadLine();
+
+                var userService = new UserInfoService();  // Instance of service
+                Result result = userService.LogIn(userLoginForm);  // Call login method
+                Console.WriteLine(result.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
         }
         static void UserListTest()
         {
             Result result = new UserInfoService().List();
-
+            Console.WriteLine(result.Message);
+            if (result.Success)
+            {
+                // If result is successful, print user details
+                foreach (var user in (List<UserInfo>)result.Data)
+                {
+                    Console.WriteLine($"Name: {user.Name}, Email: {user.Email}, RoleId: {user.RoleId}");
+                }
+            }
         }
-        static void UserTest()
-        {
-            Result result = new UserInfoService().Single("UserId");
 
+        static void UserInfoTest()
+        {
+            Console.WriteLine("Enter UserId:");
+            string userInfoId = Console.ReadLine();
+            Result result = new UserInfoService().Single(userInfoId);
+            Console.WriteLine(result.Message);
         }
     }
 }

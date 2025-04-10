@@ -81,23 +81,18 @@ namespace Business.Services
                 return new Result(false, ex.Message);
             }
         }
-        public Result Single(string userInfoId)
+        public Result Single(string Id)
         {
+            //logics
             try
             {
-                using var context = new CarParkingContext();
-                var user = context.UserInfo.FirstOrDefault(u => u.UserInfoId == userInfoId);
-
-                if (user == null)
-                    return new Result(false, "User not found.");
-
-                return new Result(true, "User retrieved successfully.", user);
+                var User = carParkingContext.UserInfo.Where(x => x.UserInfoId == Id).FirstOrDefault();
+                return new Result(true, "Success", User);
             }
             catch (Exception ex)
             {
                 return new Result(false, ex.Message);
             }
         }
-
     }
 }

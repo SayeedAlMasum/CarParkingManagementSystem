@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿//Index.cshtml.cs
+//Index.cshtml.cs
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages
@@ -16,7 +18,7 @@ namespace Web.Pages
 
         public void OnGet()
         {
-            Roles = new List<string> { "Bus", "Truck", "Car" };
+            Roles = new List<string> { "Student", "Teacher" };
         }
     }
 }
